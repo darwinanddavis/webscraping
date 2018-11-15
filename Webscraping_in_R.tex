@@ -1,0 +1,236 @@
+\documentclass[10,portrait]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\PassOptionsToPackage{hyphens}{url} % url is loaded by hyperref
+\usepackage[unicode=true]{hyperref}
+\PassOptionsToPackage{usenames,dvipsnames}{color} % color is loaded by hyperref
+\hypersetup{
+            pdftitle={Webscraping in R},
+            colorlinks=true,
+            linkcolor=blue,
+            citecolor=red,
+            urlcolor=blue,
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage[margin=1in]{geometry}
+\usepackage[]{biblatex}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Webscraping in R}
+\author{Matthew
+Malishev\textsuperscript{1}*\\[2\baselineskip]\emph{\textsuperscript{1}
+Department of Biology, Emory University, 1510 Clifton Road NE, Atlanta,
+GA, USA, 30322}}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{4}
+\tableofcontents
+}
+\newpage   
+
+Date: 2018-11-12\\
+R version: 3.5.0\\
+*Corresponding author:
+\href{mailto:matthew.malishev@gmail.com}{\nolinkurl{matthew.malishev@gmail.com}}\\
+This document can be found at \url{https://github.com/darwinanddavis}
+
+~
+
+R session info
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{params}\OperatorTok{$}\NormalTok{session}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+R version 3.5.0 (2018-04-23)
+Platform: x86_64-apple-darwin15.6.0 (64-bit)
+Running under: OS X El Capitan 10.11.6
+
+Matrix products: default
+BLAS: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/3.5/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+ [1] compiler_3.5.0  backports_1.1.2 magrittr_1.5    rprojroot_1.3-2 tools_3.5.0     htmltools_0.3.6
+ [7] pillar_1.2.3    tibble_1.4.2    yaml_2.2.0      Rcpp_0.12.19    stringi_1.2.3   rmarkdown_1.10 
+[13] knitr_1.20      stringr_1.3.1   digest_0.6.15   rlang_0.3.0.1   evaluate_0.10.1
+\end{verbatim}
+
+\newpage  
+
+\subsection{Overview}\label{overview}
+
+This document outlines useful tools for webscraping with \texttt{R},
+including how to use xpaths, navigating XML and JSON, and useful
+\texttt{R} packages.
+
+\subsubsection{Install dependencies}\label{install-dependencies}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{packages <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"rgdal"}\NormalTok{,}\StringTok{"dplyr"}\NormalTok{,}\StringTok{"zoo"}\NormalTok{,}\StringTok{"RColorBrewer"}\NormalTok{,}\StringTok{"viridis"}\NormalTok{,}\StringTok{"plyr"}\NormalTok{,}\StringTok{"digitize"}\NormalTok{,}\StringTok{"jpeg"}\NormalTok{,}\StringTok{"devtools"}\NormalTok{,}\StringTok{"imager"}\NormalTok{,}\StringTok{"dplyr"}\NormalTok{,}\StringTok{"ggplot2"}\NormalTok{,}\StringTok{"ggridges"}\NormalTok{,}\StringTok{"ggjoy"}\NormalTok{,}\StringTok{"ggthemes"}\NormalTok{,}\StringTok{"svDialogs"}\NormalTok{,}\StringTok{"data.table"}\NormalTok{,}\StringTok{"tibble"}\NormalTok{,}\StringTok{"extrafont"}\NormalTok{,}\StringTok{"sp"}\NormalTok{)   }
+\ControlFlowTok{if}\NormalTok{ (}\KeywordTok{require}\NormalTok{(packages)) \{}
+    \KeywordTok{install.packages}\NormalTok{(packages,}\DataTypeTok{dependencies =}\NormalTok{ T)}
+    \KeywordTok{require}\NormalTok{(packages)}
+\NormalTok{\}}
+\KeywordTok{lapply}\NormalTok{(packages,library,}\DataTypeTok{character.only=}\NormalTok{T)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Initial steps}\label{initial-steps}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Search CRAN for packages that access the API for the site for
+  webscraping, e.g.~search `Spotify' for \texttt{Rspotify} package.\\
+\item
+  Use \texttt{rvest} or \texttt{rjson} to scrape.\\
+\item
+  Use \texttt{regex} functions to parse text blocks.
+\end{enumerate}
+
+\subsection{Selecting individual webpage
+elements}\label{selecting-individual-webpage-elements}
+
+xpath finder: webpage plugin to isolate HTML elements, e.g.~tables on
+webpage and turn them into XML. Once passed to \texttt{R}, packages like
+\texttt{rvest} scrape only that XML element.
+
+Use \texttt{tidytext} in R to parse and clean scraped text.
+
+\subsection{Geocodes}\label{geocodes}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Use Google API to get geocode values from webpage.\\
+\item
+  Run xpath expression to isolate the geocode values e.g ``XML parse''
+  function.\\
+  \#\# PubMed Search pubmed in \texttt{R} package on CRAN.\\
+  Use the HTML element web app to find which HTML elements of the page
+  you want to scrape, e.g. = link.\\
+  To scrape the pure text of i.e.~just abstract text without the author
+  and affiliation text lines, but across multiple web pages, use the XML
+  search home page to search for and apply an xpath term, e.g.
+  `abstracttextonly'.
+\end{enumerate}
+
+\subsubsection{\texorpdfstring{How to programmatically bypass the `Show
+more results' button on
+webpages}{How to programmatically bypass the Show more results button on webpages}}\label{how-to-programmatically-bypass-the-show-more-results-button-on-webpages}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Use \texttt{RSelenium} package.\\
+\item
+  Find the HTML element on the webpage for the `Show More' button and
+  access this XML path using the package.
+\end{enumerate}
+
+\printbibliography
+
+\end{document}

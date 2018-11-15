@@ -1,0 +1,157 @@
+---
+title: Webscraping in R  
+author: |
+ | Matthew Malishev^1^* 
+ |  
+ | _^1^ Department of Biology, Emory University, 1510 Clifton Road NE, Atlanta, GA, USA, 30322_
+#bibliography:/Users/malishev/Documents/Melbourne Uni/Thesis_2016/library.bib
+fontsize: 10
+geometry: margin=1in
+documentclass: article
+linkcolor: blue
+urlcolor: blue
+citecolor: red
+output:
+  html_document:
+    highlight: tango
+    code_folding: hide
+    toc: yes
+    toc_depth: 4
+    number_sections: no
+    toc_float: yes
+  pdf_document:
+    includes:
+      in_header: # add .tex file with header content
+    highlight: tango
+    template: null
+    toc: yes
+    toc_depth: 4
+    number_sections: false
+    fig_width: 4
+    fig_height: 5
+    fig_caption: true
+    df_print: tibble 
+    citation_package: biblatex # natbib
+    latex_engine: xelatex #pdflatex # lualatex
+    keep_tex: true # keep .tex file in dir 
+  word_document:
+    highlight: tango
+    keep_md: yes
+    pandoc_args: --smart
+    #reference: mystyles.docx
+    toc: yes
+inludes:
+  before_body: before_body.tex
+subtitle: 
+tags:
+- nothing
+- nothingness
+params: 
+  dir: "/Users/malishev/Documents/Melbourne Uni/Programs/R code/webscraping"
+  date: !r Sys.Date()
+  session: !r sessionInfo()  
+  version: !r getRversion()
+  email: "matthew.malishev@gmail.com"
+  doi: https://github.com/darwinanddavis
+classoption: portrait
+# ^['https://github.com/darwinanddavis'] # footnote
+vignette: >
+  %\VignetteIndexEntry{X}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "all"} } });
+</script>
+
+```{r echo = FALSE}
+# library(rmarkdown)
+# setwd("")
+# f <- list.files()[1]
+# render(f, output_format='pdf_document')
+```
+
+```{r, set-options, echo = FALSE, cache = FALSE}
+options(width=100)
+knitr::opts_chunk$set(
+ eval = TRUE, # run all code
+ # echo = FALSE, # show code chunks in output 
+ comment = "",
+ tidy.opts=list(width.cutoff=100), # set width of code chunks in output
+ tidy=TRUE, # make output as tidy
+ message = FALSE,  # mask all messages
+ warning = FALSE, # mask all warnings 
+ size="small" # set code chunk size
+)
+
+# https://github.com/ucb-stat133/stat133-fall-2016/blob/master/hws/hw02-tables-ggplot.Rmd
+knitr::opts_knit$set(root.dir=paste0(params$dir,"/")) # set working dir
+
+setwd(paste0(params$dir,"/")) # for running just in R not knitr
+```
+
+\newpage   
+
+Date: `r params$date`  
+R version: `r params$version`  
+*Corresponding author: `r params$email`  
+This document can be found at `r params$doi`  
+
+\  
+
+R session info 
+
+```{r}
+params$session
+```      
+
+\newpage  
+
+## Overview
+
+This document outlines useful tools for webscraping with `R`, including how to use xpaths, navigating XML and JSON, and useful `R` packages.    
+
+### Install dependencies
+```{r, load packages, include=T, cache=F, message=F, warning=F, results='hide'}
+packages <- c("rgdal","dplyr","zoo","RColorBrewer","viridis","plyr","digitize","jpeg","devtools","imager","dplyr","ggplot2","ggridges","ggjoy","ggthemes","svDialogs","data.table","tibble","extrafont","sp")   
+if (require(packages)) {
+    install.packages(packages,dependencies = T)
+    require(packages)
+}
+lapply(packages,library,character.only=T)
+```
+
+
+## Initial steps  
+1. Search CRAN for packages that access the API for the site for webscraping, e.g. search 'Spotify' for `Rspotify` package.  
+2. Use `rvest` or `rjson` to scrape.    
+3. Use `regex` functions to parse text blocks.  
+
+
+## Selecting individual webpage elements  
+
+xpath finder: webpage plugin to isolate HTML elements, e.g. tables on webpage and turn them into XML. Once passed to `R`, packages like `rvest` scrape only that XML element. 
+
+Use `tidytext` in R to parse and clean scraped text.    
+
+## Geocodes  
+1. Use Google API to get geocode values from webpage.  
+2. Run xpath expression to isolate the geocode values e.g "XML parse" function.  
+## PubMed 
+Search pubmed in `R` package on CRAN.  
+Use the HTML element web app to find which HTML elements of the page you want to scrape, e.g. <a> = link.  
+To scrape the pure text of i.e. just abstract text without the author and affiliation text lines, but across multiple web pages, use the XML search home page to search for and apply an xpath term, e.g. 'abstracttextonly'.  
+
+### How to programmatically bypass the 'Show more results' button on webpages  
+1. Use `RSelenium` package.  
+2. Find the HTML element on the webpage for the 'Show More' button and access this XML path using the package.    
+
+
+
+
+
+
+
+
+
